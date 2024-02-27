@@ -1,17 +1,27 @@
 import requests
 from ScriptScan.ScanOldSw import scan_old_software
 
-def fetch_cve_ids_for_package(package_name):
+import requests
+import json
+
+def fetch_cve_ids_for_package(package_name, package_version):
     """
-    Fetches CVE IDs for a specific package name from a hypothetical API.
-    This function should be replaced with actual logic to fetch CVE IDs.
+    Fetches CVE IDs for a specific package name and version from the OSV API.
     """
-    url = f"https://example.com/api/cve-ids?package={package_name}"
-    response = requests.get(url)
-    if response.status_code ==  200:
-        return response.json() 
+    url = "https://api.osv.dev/v1/query"
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        "package": {
+            "name": package_name,
+            "version": package_version
+        }
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+    if response.status_code == 200:
+        return response.json()
     else:
-        print(f"Failed to fetch CVE IDs for package {package_name}. Status code: {response.status_code}")
+        print(f"Failed to fetch CVE IDs for package {package_name} version {package_version}. Status code: {response.status_code}")
         return []
 
 def fetch_cve_data(cve_id):

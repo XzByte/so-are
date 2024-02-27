@@ -49,5 +49,3 @@ elif opt == 'n':
             Here's the menu :
             1. Scan for old software
             2. Scan for IDOR (Insecure Direct Object Reference) vulnerabilities""")
-# ScanOldSw.scan_old_software.check_for_updates()
-# instance = idord()
