@@ -49,3 +49,4 @@ elif opt == 'n':
             Here's the menu :
             1. Scan for old software
             2. Scan for IDOR (Insecure Direct Object Reference) vulnerabilities""")
+
