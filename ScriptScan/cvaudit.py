@@ -41,8 +41,8 @@ def identify_vulnerabilities(outdated_packages):
     """
     Identifies vulnerabilities for the given outdated packages and provides remediation steps.
     """
-    for package in outdated_packages:
-        cve_ids = fetch_cve_ids_for_package(package)
+    for package_name, package_version in outdated_packages:
+        cve_ids = fetch_cve_ids_for_package(package_name, package_version)
         for cve_id in cve_ids:
             cve_data = fetch_cve_data(cve_id)
             if cve_data:
