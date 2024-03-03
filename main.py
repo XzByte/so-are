@@ -17,36 +17,33 @@ print('''Menu:
                    
        Your answer: ''')
 opt = input(str(">>> ")).lower()
+from ScriptScan.cvaudit2 import fetch_cve_data
+from ScriptScan.ScanOldSw import scan_old_software
 
-if opt == "y":
-      print("""It's the automated interface of SO-ARE?\n
-            included auto Remediation and reporting""")
-      
-      from ScriptScan.ScanOldSw import scan_old_software
-      from ScriptScan.cvaudit import fetch_cve_ids_for_package, fetch_cve_data, identify_vulnerabilities
-      
-      outdated_packages = scan_old_software().check_for_updates()
-      print(f"Outdated packages found: {outdated_packages}")
-      
-      for package in outdated_packages:
-          package_name, package_version = package 
-          cve_ids = fetch_cve_ids_for_package(package_name, package_version)
-          print(f"CVE IDs for {package_name}: {cve_ids}")
-          for cve_id in cve_ids:
-              cve_data = fetch_cve_data(cve_id)
-              if cve_data:
-                  print(f"CVE ID: {cve_data['cve']['CVE_data_meta']['ID']}")
-                  print(f"Description: {cve_data['cve']['description']['description_data'][0]['value']}")
-                  print(f"Severity: {cve_data['impact']['baseMetricV3']['cvssV3']['baseSeverity']}")
-                  print(f"Affected Products: {cve_data['affects']['vendor']['vendor_data'][0]['product']['product_data'][0]['product_name']}")
-                  print("Remediation Steps:")
-              else:
-                  print(f"No data found for CVE ID {cve_id}")
-      
-      print("Automatic vulnerability audit completed.")
-elif opt == 'n':
-      print("""it's the manual interface of SO-ARE?\n
-            Here's the menu :
-            1. Scan for old software
-            2. Scan for IDOR (Insecure Direct Object Reference) vulnerabilities""")
+def main():
+    print("""
+          Menu:
+             automate? y/N?
+                       
+             Your answer: """)
+    opt = input(str(">>> ")).lower()
 
+    if opt == "y":
+        print("""It's the automated interface of SO-ARE?\n
+              included auto Remediation and reporting""")
+        
+        scanner = scan_old_software()
+        outdated_packages = scanner.check_for_updates()
+        for package_name, package_version in outdated_packages:
+            fetch_cve_data(package_name, package_version)
+
+    elif opt == 'n':
+        print("""it's the manual interface of SO-ARE?\n
+              Here's the menu :
+              1. Scan for old software
+              2. Scan for IDOR (Insecure Direct Object Reference) vulnerabilities""")
+    else:
+        print("Invalid option. Please enter 'y' for automated or 'n' for manual.")
+
+if __name__ == "__main__":
+    main()

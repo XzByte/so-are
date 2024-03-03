@@ -11,9 +11,8 @@ def fetch_cve_ids_for_package(package_name, package_version):
     url = "https://api.osv.dev/v1/query"
     data = {
         "package": {
-            "name": package_name,
+            "name": package_name},
             "version": package_version
-        }
     }
     response = requests.post(url, data=json.dumps(data))
 
