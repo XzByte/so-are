@@ -9,14 +9,13 @@ def fetch_cve_ids_for_package(package_name, package_version):
     Fetches CVE IDs for a specific package name and version from the OSV API.
     """
     url = "https://api.osv.dev/v1/query"
-    headers = {'Content-Type': 'application/json'}
     data = {
         "package": {
             "name": package_name,
             "version": package_version
         }
     }
-    response = requests.post(url, headers=headers, data=json.dumps(data))
+    response = requests.post(url, data=json.dumps(data))
 
     if response.status_code == 200:
         return response.json()
