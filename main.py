@@ -29,9 +29,9 @@ if opt == "y":
       print(f"Outdated packages found: {outdated_packages}")
       
       for package in outdated_packages:
-          cve_ids = fetch_cve_ids_for_package(package)
-          print(f"CVE IDs for {package}: {cve_ids}")
-          
+          package_name, package_version = package 
+          cve_ids = fetch_cve_ids_for_package(package_name, package_version)
+          print(f"CVE IDs for {package_name}: {cve_ids}")
           for cve_id in cve_ids:
               cve_data = fetch_cve_data(cve_id)
               if cve_data:
